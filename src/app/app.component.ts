@@ -20,22 +20,22 @@ export class AppComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		let departingCountry: MultiNode = this.wbService.getNode('departingCountry');
+		let departingCountry: MultiNode = this.wbService.getNode('departingCountry') as MultiNode;
 		departingCountry.subscribe(value => {
 			this.engServ.executeEmotes('Wave')
 		});
-		let arrivingCountry: MultiNode = this.wbService.getNode('arrivingCountry');
+		let arrivingCountry: MultiNode = this.wbService.getNode('arrivingCountry')  as MultiNode;
 		arrivingCountry.subscribe(value => {
 			this.engServ.executeEmotes('ThumbsUp')
 		});
-		let actions: MultiNode = this.wbService.getNode('actions');
+		let actions: MultiNode = this.wbService.getNode('actions')  as MultiNode;
 		actions.subscribe(value => {
 			if (value != null) {
 				this.engServ.setState(value.action)
 				this.engServ.executeEmotes(value.emotes)
 			}
 		});
-		let faceExpression: MultiNode = this.wbService.getNode('faceExpression');
+		let faceExpression: MultiNode = this.wbService.getNode('faceExpression')  as MultiNode;
 		faceExpression.subscribe(value => {
 			this.engServ.setFaceExpression(value)
 		});

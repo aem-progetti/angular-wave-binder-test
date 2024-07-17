@@ -17,3 +17,31 @@ h4 {
 span {
   font-size: large;
 }
+
+mat-tab-group{
+  max-height: 85vh
+}
+.grid-selection-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 4%;
+}
+
+
+/***************************************************************************************/
+.span-switch {
+  font-size: large;
+  color: #1b0036;
+  padding-right: 10%;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.grid-container-switch {
+  display: flex;
+  align-items: center;
+}
+mat-icon{
+  padding-left: 2%;
+}

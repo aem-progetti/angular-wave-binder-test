@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {WaveBinder} from "../../../../wave-binder/wvb/lib/wave-binder";
+import {MultiNode} from "../../../../wave-binder/wvb/lib/wvb/node";
 
 
 @Injectable({
@@ -9,7 +10,15 @@ export class WaveBinderManagerService {
 	public waveBinder: WaveBinder;
 
 	constructor() {
-		this.waveBinder = new WaveBinder(PROTO_NODES, SERVICE_MAP);
+		let map = new Map<string, any>;
+		map.set("RETRIEVE_DATA",
+			{
+				"target": "http://localhost:3000/country",
+				"secure": false,
+				"authorization": null,
+				"headers": {}
+			})
+		this.waveBinder = new WaveBinder(PROTO_NODES, map);
 		this.waveBinder.tangleNodes()
 	}
 
@@ -22,26 +31,16 @@ export class WaveBinderManagerService {
 	}
 
 	getChoices(name: string) {
-		return this.getNode(name).choices
+		let node = this.getNode(name) as MultiNode;
+		return node.choices
 	}
 
 	getNodeValue(name: string) {
-		return this.getNode(name).value
+		return this.getNode(name).getNodeValue()
 	}
 
 }
 
-const SERVICE_MAP: any = [
-	[
-		"RETRIEVE_DATA",
-		{
-			"target": "http://localhost:3000/country",
-			"secure": false,
-			"authorization": null,
-			"headers": {}
-		}
-	]
-]
 
 const PROTO_NODES: any[] = [
 	{
@@ -185,7 +184,7 @@ const PROTO_NODES: any[] = [
 			"type": "POST",
 			"addr": "/distance",
 			"serviceName": "RETRIEVE_DATA",
-			"bodyType": 'JSON_OBJECT'
+			"bodyType": "JSON_OBJECT"
 		},
 		"dep": [
 			{
@@ -230,7 +229,7 @@ const PROTO_NODES: any[] = [
 			"type": "POST",
 			"addr": "/time",
 			"serviceName": "RETRIEVE_DATA",
-			"bodyType": 'JSON_OBJECT'
+			"bodyType": "JSON_OBJECT"
 		},
 		"dep": [
 			{
@@ -287,5 +286,116 @@ const PROTO_NODES: any[] = [
 				"type": "PATH_VARIABLE"
 			}
 		]
-	}
+	},
+	{
+		"name": "countryList",
+		"type": "LIST",
+		"path": "/countryList",
+		"la": {
+			"type": "USER_SELECTION"
+		},
+		"dep": [],
+		"defaultValue": 1,
+		"proto": {
+			"name": "countryObj",
+			"type": "MULTI",
+			"path": "/region",
+			"la": {
+				"type": "GET",
+				"addr": "/countryList",
+				"serviceName": "RETRIEVE_DATA"
+			},
+			"dep": []
+		}
+	},
+	{
+		"name": "distances",
+		"type": "LIST",
+		"path": "/distances",
+		"la": {
+			"type": "USER_SELECTION",
+		},
+		"dep": [],
+		"proto": {
+			"name": "distanceElement",
+			"type": "SINGLE",
+			"path": "/distanceElement",
+			"la": {
+				"type": "POST",
+				"addr": "/distanceElement",
+				"serviceName": "RETRIEVE_DATA",
+				"bodyType": "JSON_OBJECT"
+			},
+			"dep": [
+				{
+					"nodeName": "countryObj*",
+					"parameterName": "departure",
+					"isOptional": false,
+					"onUpdate": true,
+					"type": "BODY",
+					"namingResolvingRule": {
+						"type": "SAME_INDEX",
+						"char": "*"
+					}
+				},
+				{
+					"nodeName": "countryObj$",
+					"parameterName": "arriving",
+					"isOptional": false,
+					"onUpdate": true,
+					"type": "BODY",
+					"namingResolvingRule": {
+						"type": "ALMOST_SAME_INDEX",
+						"char": "$",
+						"value": 1
+					}
+				}
+			]
+		}
+	},
+	{
+		"name": "timeList",
+		"type": "LIST",
+		"path": "/timeList",
+		"la": {
+			"type": "USER_SELECTION",
+		},
+		"dep": [],
+		"proto":{
+			"name": "timeElement",
+			"type": "SINGLE",
+			"path": "/timeElement",
+			"la": {
+				"type": "POST",
+				"addr": "/time",
+				"serviceName": "RETRIEVE_DATA",
+				"bodyType": "JSON_OBJECT"
+			},
+			"dep": [
+				{
+					"nodeName": "distanceElement*",
+					"parameterName": "distance",
+					"isOptional": false,
+					"onUpdate": true,
+					"type": "BODY",
+					"namingResolvingRule": {
+						"type": "SAME_INDEX",
+						"char": "*"
+					}
+				},
+				{
+
+					"nodeName": "travelSpeed",
+					"parameterName": "speed",
+					"isOptional": false,
+					"onUpdate": true,
+					"type": "BODY"
+				}
+			]
+		}
+	},
+
+
 ];
+
+

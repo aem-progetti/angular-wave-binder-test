@@ -5,6 +5,9 @@ import {AppModule} from "../../app.module";
 import {ManageRobotService} from "../../robot/manage-robot.service";
 import {WaveBinderManagerService} from "../../service/wave-binder-manager.service";
 import {NgOptimizedImage} from "@angular/common";
+import {DomSanitizer} from "@angular/platform-browser";
+import {SelectionListComponent} from "./selection-list/selection-list.component";
+import {TravelDetailsListComponent} from "./travel-details-list/travel-details-list.component";
 
 
 @Component({
@@ -17,12 +20,28 @@ import {NgOptimizedImage} from "@angular/common";
 		AppModule,
 		CountrySelectionComponent,
 		TravelDetailsComponent,
-		NgOptimizedImage
+		NgOptimizedImage,
+		SelectionListComponent,
+		TravelDetailsListComponent
 	]
 })
-export class UiComponent{
-	public constructor(protected engServ: ManageRobotService,
-					   protected wbService: WaveBinderManagerService) {
-	}
-}
+export class UiComponent {
+	image: any
 
+	public constructor(protected engServ: ManageRobotService,
+					   protected wbService: WaveBinderManagerService,
+					   private _sanitizer: DomSanitizer) {
+	}
+
+
+	async uploadConfiguration(event: any) {
+		const reader = new FileReader();
+		const file = event.target.files[0];
+		reader.readAsDataURL(file);
+		reader.onload = () => {
+			this.image = this._sanitizer.bypassSecurityTrustResourceUrl(`data:image/image/jpg;base64,${reader.result}`);
+		};
+
+	}
+
+}

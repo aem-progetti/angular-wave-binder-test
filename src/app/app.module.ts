@@ -1,11 +1,11 @@
 import {MatDialogModule} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
+import {MatButton, MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSortModule} from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -22,6 +22,7 @@ import {provideAnimations} from "@angular/platform-browser/animations";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatTab, MatTabBody, MatTabGroup} from "@angular/material/tabs";
 import {NumberWithGroupingPipe} from '../number-with-grouping.pipe';
+import {MatSlider, MatSliderModule, MatSliderThumb} from "@angular/material/slider";
 
 @NgModule({
 	imports: [
@@ -43,24 +44,6 @@ import {NumberWithGroupingPipe} from '../number-with-grouping.pipe';
 		MatSnackBarModule,
 		MatCardModule,
 		MatSelectModule,
-		HttpClientModule,
-		CommonModule,
-		MatDialogModule,
-		MatButtonModule,
-		MatToolbarModule,
-		MatIconModule,
-		MatMenuModule,
-		MatExpansionModule,
-		MatProgressBarModule,
-		FormsModule,
-		MatTooltipModule,
-		MatSortModule,
-		MatCheckboxModule,
-		MatListModule,
-		MatGridListModule,
-		MatSnackBarModule,
-		MatCardModule,
-		MatSelectModule,
 		MatFormField,
 		MatInput,
 		MatLabel,
@@ -68,21 +51,23 @@ import {NumberWithGroupingPipe} from '../number-with-grouping.pipe';
 		MatSelect,
 		MatIcon,
 		MatSuffix,
-		MatFormField,
-		MatLabel,
-		MatOption,
-		MatSelect,
 		MatCard,
-		MatInput,
 		MatTabGroup,
 		MatTab,
-		MatTabBody,MatInputModule
+		MatTabBody,
+		MatInputModule,
+		MatButton,
+		MatExpansionPanel,
+		MatExpansionPanelTitle,
+		ReactiveFormsModule,
+		MatSliderModule,
+		MatSlider,
+		MatSliderThumb
 	],
 	exports: [HttpClientModule,
 		CommonModule,
 		MatDialogModule,
 		MatButtonModule,
-		MatToolbarModule,
 		MatIconModule,
 		MatMenuModule,
 		MatExpansionModule,
@@ -95,42 +80,28 @@ import {NumberWithGroupingPipe} from '../number-with-grouping.pipe';
 		MatGridListModule,
 		MatSnackBarModule,
 		MatFormFieldModule,
-		MatCardModule,
 		MatSelectModule,
-		HttpClientModule,
-		CommonModule,
-		MatDialogModule,
-		MatButtonModule,
 		MatToolbarModule,
-		MatIconModule,
-		MatMenuModule,
-		MatExpansionModule,
-		MatProgressBarModule,
-		FormsModule,
-		MatTooltipModule,
-		MatSortModule,
-		MatCheckboxModule,
-		MatListModule,
-		MatGridListModule,
-		MatSnackBarModule,
-		MatFormFieldModule,
 		MatCardModule,
-		MatSelectModule,
 		MatFormField,
 		MatOption,
 		MatSelect,
 		MatIcon,
 		MatSuffix,
-		MatFormField,
 		MatLabel,
-		MatOption,
-		MatSelect,
 		MatCard,
 		MatInput,
 		MatTabGroup,
 		MatTab,
 		MatTabBody,
-		MatInputModule],
+		MatInputModule,
+		MatButton,
+		MatExpansionPanel,
+		MatExpansionPanelTitle,
+		ReactiveFormsModule,
+		MatSliderModule,
+		MatSlider,
+		MatSliderThumb],
 	providers: [provideHttpClient(), provideAnimations(), NumberWithGroupingPipe]
 })
 export class AppModule {

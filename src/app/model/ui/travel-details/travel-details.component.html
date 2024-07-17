@@ -18,7 +18,7 @@
     <span class="span-switch">Speed:  <mat-icon
             color="primary">speed</mat-icon></span>
     <div style="display:flex;gap: 5%; margin-top: 2%">
-        <mat-slider style="width: 100%" [disabled]="false" [max]="10000" [min]="0" [step]="100">
+        <mat-slider style="width: 100%" [disabled]="false" [max]="1000" [min]="0" [step]="10">
             <input matSliderThumb #slider (change)="setSpeed(slider.value)"
                    [value]="this.wbService.getNodeValue('travelSpeed')">
         </mat-slider>

@@ -199,7 +199,7 @@ export class ManageRobotService implements OnDestroy {
 			.play();
 	}
 
-	setFaceExpression(value: any) {
+	public setFaceExpression(value: any) {
 		if (!value) return
 		this.setSadExpression(value['sad'])
 		this.setSurprisedExpression(value['surprised'])
