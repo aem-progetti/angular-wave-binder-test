@@ -1,14 +1,4 @@
 <div>
-    <ng-container>
-        <span class="span-switch">Speed:  <mat-icon color="primary">speed</mat-icon></span>
-        <div style="display:flex;gap: 5%; margin-top: 2%">
-            <mat-slider style="width: 100%" [disabled]="false" [max]="1000" [min]="0" [step]="10">
-                <input matSliderThumb #slider (change)="setSpeed(slider.value)"
-                       [value]="this.wb.getNodeValue('travelSpeed')">
-            </mat-slider>
-            <label class="example-value-label">{{ slider.value }} m/s</label>
-        </div>
-    </ng-container>
     <ul class='timeline'>
         @for (element of getDistanceNode().getNodeValue(); track element) {
             <li class='work'>
@@ -28,6 +18,17 @@
                                 <input matInput [value]="element?.distance| numberWithGrouping:2" [readonly]="true">
                                 <span matTextSuffix>km</span>
                             </mat-form-field>
+                            <ng-container>
+                                <span class="span-switch">Speed:  <mat-icon color="primary">speed</mat-icon></span>
+                                <div style="display:flex;gap: 5%; margin-top: 2%">
+                                    <mat-slider style="width: 100%" [disabled]="false" [max]="1000" [min]="0"
+                                                [step]="10">
+                                        <input matSliderThumb #slider (change)="setSpeed(slider.value,$index)"
+                                               [value]="this.getSpeedListNode().children[$index].getNodeValue()">
+                                    </mat-slider>
+                                    <label class="example-value-label">{{ slider.value }} m/s</label>
+                                </div>
+                            </ng-container>
                             <span class="span-switch">Travel time: <mat-icon color="primary">schedule</mat-icon></span>
                             <div style="display:flex;gap: 5%; margin-top: 2%">
                                 <mat-form-field appearance="outline">

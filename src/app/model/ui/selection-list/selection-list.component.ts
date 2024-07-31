@@ -47,11 +47,15 @@ export class SelectionListComponent implements AfterViewInit {
 	}
 
 	printChildren() {
+		console.log(this.wbService.waveBinder.getDataPool())
+		this.wbService.setValue(25,'age');
+		console.log(this.wbService.getNode('distances'));
+		/*
 		console.log(this.getCountryListNode().getNodeValue())
 		console.log(this.getCountryListNode().children);
 		console.log(this.getDistancesNode().children);
 		console.log(this.getDistancesNode().getNodeValue());
-		console.log(this.wbService.waveBinder.getNodes())
+		console.log(this.wbService.waveBinder.getNodes())*/
 	}
 
 	getCountryListNode(): ListNode {
@@ -63,9 +67,11 @@ export class SelectionListComponent implements AfterViewInit {
 	}
 
 	resizeDistanceNode() {
-		this.getDistancesNode().next(this.index - 1)
-		let node = this.wbService.getNode('timeList') as ListNode;
-		node.next(this.index - 1)
+		this.getDistancesNode().next(this.index - 1);
+		(this.wbService.getNode('timeList') as ListNode).next(this.index - 1);
+		(this.wbService.getNode('speedList') as ListNode).next(this.index - 1);
+		(this.wbService.getNode('robotBehaviourList') as ListNode).next(this.index - 1);
+
 	}
 
 	getChoices(child: SingleNode | MultiNode) {

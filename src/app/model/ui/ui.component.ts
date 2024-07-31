@@ -8,6 +8,7 @@ import {NgOptimizedImage} from "@angular/common";
 import {DomSanitizer} from "@angular/platform-browser";
 import {SelectionListComponent} from "./selection-list/selection-list.component";
 import {TravelDetailsListComponent} from "./travel-details-list/travel-details-list.component";
+import {RecapTravelComponent} from "./recap-travel/recap-travel.component";
 
 
 @Component({
@@ -22,7 +23,8 @@ import {TravelDetailsListComponent} from "./travel-details-list/travel-details-l
 		TravelDetailsComponent,
 		NgOptimizedImage,
 		SelectionListComponent,
-		TravelDetailsListComponent
+		TravelDetailsListComponent,
+		RecapTravelComponent
 	]
 })
 export class UiComponent {

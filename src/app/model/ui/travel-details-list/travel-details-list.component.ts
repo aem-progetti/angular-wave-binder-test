@@ -24,8 +24,12 @@ export class TravelDetailsListComponent {
 	}
 
 
-	setSpeed(speed: any) {
-		this.wb.setValue(speed, 'travelSpeed')
+	setSpeed(speed: any, $index: number) {
+		this.getSpeedListNode().children[$index].next(speed)
+	}
+
+	getSpeedListNode() {
+		return this.wb.getNode('speedList') as ListNode;
 	}
 
 	retrieveRoute(element: any) {

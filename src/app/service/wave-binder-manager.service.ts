@@ -18,7 +18,22 @@ export class WaveBinderManagerService {
 				"authorization": null,
 				"headers": {}
 			})
-		this.waveBinder = new WaveBinder(PROTO_NODES, map);
+		this.waveBinder = new WaveBinder(PROTO_NODES, map, [
+			{
+				"name": "getMoveList",
+				"arguments": "",
+				"body": "return[1,2,4,3]"
+			},
+			{
+				name: 'paperino',
+				arguments: 'a,b,c',
+				body: 'return a+b+c;'
+			},
+			{
+				name: 'getComplexObj',
+				arguments: '',
+				body: 'return {name: \'Theo\', surname: \'James\', age: 30}'
+			}]);
 		this.waveBinder.tangleNodes()
 	}
 
@@ -31,223 +46,37 @@ export class WaveBinderManagerService {
 	}
 
 	getChoices(name: string) {
-		let node = this.getNode(name) as MultiNode;
-		return node.choices
+		return (this.getNode(name) as MultiNode).choices;
 	}
 
 	getNodeValue(name: string) {
 		return this.getNode(name).getNodeValue()
 	}
 
-}
+	getDataPool(){
+		return this.waveBinder.getDataPool()
+	}
 
+}
 
 const PROTO_NODES: any[] = [
 	{
-		"name": "departingCountry",
-		"type": "MULTI",
-		"path": "/departingCountry/name",
+		"name": "speedList",
+		"type": "LIST",
+		"path": "/speedList",
 		"la": {
-			"type": "GET",
-			"addr": "/list",
-			"serviceName": "RETRIEVE_DATA"
+			"type": "USER_SELECTION"
 		},
-		"dep": []
-	},
-	{
-		"name": "calculateBasedOnTime",
-		"type": "SINGLE",
-		"path": "/calculateBasedOnTime",
-		"la": {
-			"type": "USER_SELECTION",
-		},
-		"dep": []
-	},
-	{
-		"name": "arrivingCountry",
-		"type": "MULTI",
-		"path": "/arrivingCountry/name",
-		"la": {
-			"type": "GET",
-			"addr": "/list",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": []
-	},
-	{
-		"name": "departingCapital",
-		"type": "SINGLE",
-		"path": "/departingCountry/capital",
-		"la": {
-			"type": "GET",
-			"addr": "/capital/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "departingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "arrivingCapital",
-		"type": "SINGLE",
-		"path": "/arrivingCountry/capital",
-		"la": {
-			"type": "GET",
-			"addr": "/capital/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "arrivingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "departingPopulation",
-		"type": "SINGLE",
-		"path": "/departingCountry/population",
-		"la": {
-			"type": "GET",
-			"addr": "/population/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "departingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "arrivingPopulation",
-		"type": "SINGLE",
-		"path": "/arrivingCountry/population",
-		"la": {
-			"type": "GET",
-			"addr": "/population/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "arrivingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "departingCoordinates",
-		"type": "SINGLE",
-		"path": "/departingCountry/population",
-		"la": {
-			"type": "GET",
-			"addr": "/coordinates/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "departingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "arrivingCoordinates",
-		"type": "SINGLE",
-		"path": "/arrivingCountry/coordinates",
-		"la": {
-			"type": "GET",
-			"addr": "/coordinates/{country}",
-			"serviceName": "RETRIEVE_DATA"
-		},
-		"dep": [{
-			"nodeName": "arrivingCountry",
-			"parameterName": "country",
-			"isOptional": false,
-			"onUpdate": true,
-			"type": "PATH_VARIABLE"
-		}]
-	},
-	{
-		"name": "distance",
-		"type": "SINGLE",
-		"path": "/distance",
-		"la": {
-			"type": "POST",
-			"addr": "/distance",
-			"serviceName": "RETRIEVE_DATA",
-			"bodyType": "JSON_OBJECT"
-		},
-		"dep": [
-			{
-				"nodeName": "departingCoordinates",
-				"parameterName": "departingCoordinates",
-				"isOptional": false,
-				"onUpdate": true,
-				"type": "BODY"
+		"dep": [],
+		"proto": {
+			"name": "travelSpeed",
+			"type": "SINGLE",
+			"path": "/travelSpeed",
+			"la": {
+				"type": "USER_SELECTION"
 			},
-			{
-				"nodeName": "arrivingCoordinates",
-				"parameterName": "arrivingCoordinates",
-				"isOptional": false,
-				"onUpdate": true,
-				"type": "BODY"
-			}
-		]
-	},
-	{
-		"name": "calculateBasedOnTime",
-		"type": "SINGLE",
-		"path": "/calculateBasedOnTime",
-		"la": {
-			"type": "USER_SELECTION",
-		},
-		"dep": []
-	},
-	{
-		"name": "travelSpeed",
-		"type": "SINGLE",
-		"path": "/travelSpeed",
-		"la": {
-			"type": "USER_SELECTION",
-		},
-		"dep": []
-	},
-	{
-		"name": "travelTime",
-		"type": "SINGLE",
-		"path": "/travelTime",
-		"la": {
-			"type": "POST",
-			"addr": "/time",
-			"serviceName": "RETRIEVE_DATA",
-			"bodyType": "JSON_OBJECT"
-		},
-		"dep": [
-			{
-				"nodeName": "distance",
-				"parameterName": "distance",
-				"isOptional": false,
-				"onUpdate": true,
-				"type": "BODY"
-			},
-			{
-
-				"nodeName": "travelSpeed",
-				"parameterName": "speed",
-				"isOptional": false,
-				"onUpdate": true,
-				"type": "BODY"
-			}
-		]
+			"dep": []
+		}
 	},
 	{
 		"name": "actions",
@@ -328,27 +157,28 @@ const PROTO_NODES: any[] = [
 			},
 			"dep": [
 				{
-					"nodeName": "countryObj*",
+					"nodeName": "countryObj",
 					"parameterName": "departure",
 					"isOptional": false,
 					"onUpdate": true,
 					"type": "BODY",
 					"namingResolvingRule": {
 						"type": "SAME_INDEX",
-						"char": "*"
+						"fatherNodeName": "distances"
 					}
 				},
 				{
-					"nodeName": "countryObj$",
+					"nodeName": "countryObj",
 					"parameterName": "arriving",
 					"isOptional": false,
 					"onUpdate": true,
 					"type": "BODY",
 					"namingResolvingRule": {
 						"type": "ALMOST_SAME_INDEX",
-						"char": "$",
-						"value": 1
-					}
+						"value": 1,
+						"fatherNodeName": "distances"
+					},
+
 				}
 			]
 		}
@@ -361,7 +191,7 @@ const PROTO_NODES: any[] = [
 			"type": "USER_SELECTION",
 		},
 		"dep": [],
-		"proto":{
+		"proto": {
 			"name": "timeElement",
 			"type": "SINGLE",
 			"path": "/timeElement",
@@ -373,29 +203,301 @@ const PROTO_NODES: any[] = [
 			},
 			"dep": [
 				{
-					"nodeName": "distanceElement*",
+					"nodeName": "distanceElement",
 					"parameterName": "distance",
 					"isOptional": false,
 					"onUpdate": true,
 					"type": "BODY",
 					"namingResolvingRule": {
 						"type": "SAME_INDEX",
-						"char": "*"
+						"fatherNodeName": "timeList"
 					}
 				},
 				{
-
 					"nodeName": "travelSpeed",
 					"parameterName": "speed",
 					"isOptional": false,
 					"onUpdate": true,
-					"type": "BODY"
+					"type": "BODY",
+					"namingResolvingRule": {
+						"type": "SAME_INDEX",
+						"fatherNodeName": "timeList"
+					}
 				}
 			]
 		}
 	},
-
-
+	{
+		"name": "complexObject",
+		"type": "COMPLEX",
+		"path": "/complexObject",
+		"la": {
+			"type": "CUSTOM_FUNCTION",
+			"functionName": "getComplexObj"
+		},
+		"protos": [
+			{
+				"name": "name",
+				"type": "SINGLE",
+				"path": "/name",
+				"la": {
+					"type": "USER_SELECTION"
+				},
+				"dep": []
+			},
+			{
+				"name": "surname",
+				"type": "SINGLE",
+				"path": "/surname",
+				"la": {
+					"type": "USER_SELECTION"
+				},
+				"dep": []
+			},
+			{
+				"name": "age",
+				"type": "SINGLE",
+				"path": "/age",
+				"la": {
+					"type": "USER_SELECTION"
+				},
+				"dep": []
+			}
+		],
+		"dep": []
+	},
+	{
+		"name": "pippos",
+		"type": "SINGLE",
+		"path": "/pippo",
+		"la": {
+			"type": "POST",
+			"addr": "/callWithComplexObject",
+			"serviceName": "RETRIEVE_DATA"
+		},
+		"dep": [{
+			"nodeName": "complexObject",
+			"parameterName": "departure",
+			"isOptional": false,
+			"onUpdate": true,
+			"type": "BODY",
+		},]
+	},
+	{
+		"name": "pluto",
+		"type": "SINGLE",
+		"path": "/pluto",
+		"la": {
+			"type": "POST",
+			"addr": "/callWithComplexObject",
+			"serviceName": "RETRIEVE_DATA"
+		},
+		"dep": [{
+			"nodeName": "name",
+			"parameterName": "departure",
+			"isOptional": false,
+			"onUpdate": true,
+			"type": "REQUEST_PARAMETER",
+		},]
+	},
+	{
+		"name": "fatherList",
+		"type": "LIST",
+		"path": "/fatherList",
+		"la": {
+			"type": "USER_SELECTION",
+		},
+		"defaultValue": 3,
+		"dep": [],
+		"proto": {
+			"name": "listInsideTheList",
+			"type": "LIST",
+			"path": "/listInsideTheList",
+			"la": {
+				"type": "USER_SELECTION",
+			},
+			"defaultValue": 3,
+			"dep": [],
+			"proto": {
+				"name": "elementOfListInsideTheList",
+				"type": "COMPLEX",
+				"path": "/elementOfListInsideTheList",
+				"la": {
+					"type": "USER_SELECTION",
+				},
+				"protos": [
+					{
+						"name": "pippo",
+						"type": "SINGLE",
+						"path": "/pippo",
+						"la": {
+							"type": "USER_SELECTION"
+						},
+						"dep": []
+					},
+					{
+						"name": "pluto",
+						"type": "SINGLE",
+						"path": "/pluto",
+						"la": {
+							"type": "USER_SELECTION"
+						},
+						"dep": []
+					}
+				],
+				"dep": []
+			}
+		}
+	},
+	{
+		"name": "averageSpeed",
+		"type": "SINGLE",
+		"path": "/averageSpeed",
+		"la": {
+			"type": "POST",
+			"addr": "/average/speed",
+			"serviceName": "RETRIEVE_DATA",
+		},
+		"dep": [
+			{
+				"nodeName": "speedList",
+				"parameterName": "speedList",
+				"isOptional": false,
+				"onUpdate": true,
+				"type": "BODY"
+			}
+		]
+	},
+	{
+		"name": "totalTime",
+		"type": "SINGLE",
+		"path": "/totalTime",
+		"la": {
+			"type": "POST",
+			"addr": "/total/time",
+			"serviceName": "RETRIEVE_DATA",
+		},
+		"dep": [
+			{
+				"nodeName": "timeList",
+				"parameterName": "timeList",
+				"isOptional": false,
+				"onUpdate": true,
+				"type": "BODY"
+			}
+		]
+	},
+	{
+		"name": "totalDistance",
+		"type": "SINGLE",
+		"path": "/totalDistance",
+		"la": {
+			"type": "POST",
+			"addr": "/total/distance",
+			"serviceName": "RETRIEVE_DATA",
+		},
+		"dep": [
+			{
+				"nodeName": "distances",
+				"parameterName": "distances",
+				"isOptional": false,
+				"onUpdate": true,
+				"type": "BODY"
+			}
+		]
+	},
+	{
+		"name": "robotBehaviourList",
+		"type": "LIST",
+		"path": "/robotBehaviourList",
+		"la": {
+			"type": "USER_SELECTION"
+		},
+		"dep": [],
+		"defaultValue": 1,
+		"proto": {
+			"name": "robotBehaviour",
+			"type": "COMPLEX",
+			"path": "/robotBehaviour",
+			"la": {
+				"type": "USER_SELECTION"
+			},
+			"dep": [],
+			"protos": [{
+				"name": "actions",
+				"type": "SINGLE",
+				"path": "/actions",
+				"la": {
+					"type": "GET",
+					"addr": "/actions/{speed}",
+					"serviceName": "RETRIEVE_DATA"
+				},
+				"dep": [
+					{
+						"nodeName": "travelSpeed",
+						"parameterName": "speed",
+						"isOptional": false,
+						"onUpdate": true,
+						"type": "PATH_VARIABLE",
+						"namingResolvingRule": {
+							"type": "SAME_INDEX",
+							"fatherNodeName": "robotBehaviourList"
+						}
+					}
+				]
+			},
+				{
+					"name": "faceExpression",
+					"type": "SINGLE",
+					"path": "/faceExpression",
+					"la": {
+						"type": "GET",
+						"addr": "/faceExpression/{speed}",
+						"serviceName": "RETRIEVE_DATA"
+					},
+					"dep": [
+						{
+							"nodeName": "travelSpeed",
+							"parameterName": "speed",
+							"isOptional": false,
+							"onUpdate": true,
+							"type": "PATH_VARIABLE",
+							"namingResolvingRule": {
+								"type": "SAME_INDEX",
+								"fatherNodeName": "robotBehaviourList"
+							}
+						}
+					]
+				}]
+		}
+	},
+	{
+		"name": "tryFunctionLa",
+		"type": "SINGLE",
+		"path": "/tryFunctionLa",
+		"la": {
+			"type": "CUSTOM_FUNCTION",
+			"functionName": "paperino"
+		},
+		"dep": [
+			{
+				"nodeName": "name",
+				"parameterName": "a",
+				"isOptional": false,
+				"onUpdate": true,
+			},
+			{
+				"nodeName": "surname",
+				"parameterName": "b",
+				"isOptional": false,
+				"onUpdate": true,
+			},
+			{
+				"nodeName": "age",
+				"parameterName": "c",
+				"isOptional": false,
+				"onUpdate": true
+			}]
+	}
 ];
-
 
