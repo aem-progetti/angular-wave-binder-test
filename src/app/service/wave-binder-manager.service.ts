@@ -18,7 +18,7 @@ export class WaveBinderManagerService {
 				"authorization": null,
 				"headers": {}
 			})
-		this.waveBinder = new WaveBinder(PROTO_NODES, map, [
+		this.waveBinder = new WaveBinder('qqWxQROwzc',PROTO_NODES, map, [
 			{
 				"name": "getMoveList",
 				"arguments": "",
