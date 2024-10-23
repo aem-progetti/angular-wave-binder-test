@@ -13,7 +13,7 @@ export class WaveBinderManagerService {
 		let map = new Map<string, any>;
 		map.set("RETRIEVE_DATA",
 			{
-				"target": "http://localhost:3000/country",
+				"target": "http://ec2-3-22-175-32.us-east-2.compute.amazonaws.com/country",
 				"secure": false,
 				"authorization": null,
 				"headers": {}
