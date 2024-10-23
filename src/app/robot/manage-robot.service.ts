@@ -2,8 +2,8 @@ import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import GUI from 'lil-gui';
 import * as THREE from 'three';
 import {AnimationClip, AnimationMixer, Clock, Group} from 'three';
-import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
-import Stats from "three/examples/jsm/libs/stats.module";
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 @Injectable({providedIn: 'root'})
 export class ManageRobotService implements OnDestroy {
